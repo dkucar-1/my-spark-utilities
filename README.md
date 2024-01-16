@@ -19,7 +19,7 @@ There are a few smaller examples of nested JSONs in the `/src/main/resources` di
 #### Example:
 
 The file `sample.json` contains varying levels of nesting and arrays.
-The schema has a mix of nested structures (`struct`s) and arrays.
+The schema has a mix of nested structures (structs) and arrays.
 
 ```
 root
