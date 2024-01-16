@@ -1,5 +1,5 @@
 import org.apache.spark.sql.SparkSession
-import SparkUtilities.FlattenDataFrame
+import SparkUtilities.FlattenDataFrame.flattenDataFrame
 import org.apache.log4j.Logger
 
 object FlattenRunner {
@@ -13,12 +13,13 @@ object FlattenRunner {
 
     val USER_HOME_DIR = System.getProperty("user.home")
 
-  def main(args: Array[String]): Unit = {
-      val rootPath = s"$USER_HOME_DIR/scala/SparkUtilities/src/main/resources"
-      val fileName = "Jones_1-6.json"
-      val df = spark.read.option("multiline", "true").json(s"$rootPath/$fileName")
-      val outDf = FlattenDataFrame.flattenDataFrame(df, true)
-      val logger = Logger.getLogger("myproj")
-      logger.info(outDf.show())
+    def main(args: Array[String]): Unit = {
+        val logger = Logger.getLogger("myproj")
+        val rootPath = s"$USER_HOME_DIR/Repos/my-spark-utilities/src/main/resources"
+        val fileName = "sample.json"
+        val df = spark.read.option("multiline", "true").json(s"$rootPath/$fileName")
+        val outDf = flattenDataFrame(df, true)
+        logger.info(outDf.show())
+        logger.info(outDf.printSchema)
     }
 }

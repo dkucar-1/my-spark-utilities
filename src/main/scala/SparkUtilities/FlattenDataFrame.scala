@@ -36,6 +36,7 @@ object FlattenDataFrame {
       }
       df
     }
+
     interiorFlatten(df)
   }
 }
