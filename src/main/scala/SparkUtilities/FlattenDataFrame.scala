@@ -1,7 +1,7 @@
 package SparkUtilities
 
 import org.apache.spark.sql.DataFrame
-import org.apache.spark.sql.functions.col
+import org.apache.spark.sql.functions.{col, explode}
 import org.apache.spark.sql.types.{ArrayType, StructType}
 
 object FlattenDataFrame {
@@ -15,28 +15,23 @@ object FlattenDataFrame {
       for (field <- fields) {
         field.dataType match {
           case arrayType: ArrayType if (flattenArray) =>
-            val fieldsExcludingArray = allFields.filter(_ != field.name)
-            val fieldsWithExplodedArray = fieldsExcludingArray ++ Array(s"explode(${field.name}) as ${field.name}")
-            val explodedDf = df.selectExpr(fieldsWithExplodedArray: _*)
-            return interiorFlatten(explodedDf)
+            return interiorFlatten(df.withColumn(s"${field.name}", explode(col(field.name))))
           case structType: StructType =>
             val childFieldnames = structType.fieldNames.map(childname => field.name + "." + childname)
             val newfieldNames = allFields.filter(_ != field.name) ++ childFieldnames
-            val renamedcols = newfieldNames.map(x => (col(x.toString()).as(x.toString()
+            val renamedcols = newfieldNames.map(f => (col(f).as(f
               .replace(".", "__")
               .replace("$", "__")
               .replace("-", "minus__")
               .replace("+", "plus__")
               .replace(" ", "")
               .replace("-", ""))))
-            val explodedf = df.select(renamedcols: _*)
-            return interiorFlatten(explodedf)
+            return interiorFlatten(df.select(renamedcols: _*))
           case _ =>
         }
       }
       df
     }
-
     interiorFlatten(df)
   }
 }

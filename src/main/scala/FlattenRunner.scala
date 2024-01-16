@@ -9,17 +9,15 @@ object FlattenRunner {
       .appName("Test Flatten")
       .getOrCreate()
 
-    val sc = spark.sparkContext // If you need SparkContext object
-
     val USER_HOME_DIR = System.getProperty("user.home")
 
     def main(args: Array[String]): Unit = {
-        val logger = Logger.getLogger("myproj")
+        val logger = Logger.getLogger("test_flatten")
         val rootPath = s"$USER_HOME_DIR/Repos/my-spark-utilities/src/main/resources"
-        val fileName = "sample.json"
+        val fileName = "stack_overflow.json"
         val df = spark.read.option("multiline", "true").json(s"$rootPath/$fileName")
         val outDf = flattenDataFrame(df, true)
-        logger.info(outDf.show())
+        logger.info(outDf.show(20))
         logger.info(outDf.printSchema)
     }
 }

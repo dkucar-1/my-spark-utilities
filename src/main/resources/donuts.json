@@ -1,9 +1,9 @@
 {
     "id": "0001",
     "type": "donut",
-    "name": "Cake",
+    "name": "Dunkin",
     "ppu": 0.55,
-    "batters": {
+    "recipe": {
         "batter": [
             {
                 "id": "1001",

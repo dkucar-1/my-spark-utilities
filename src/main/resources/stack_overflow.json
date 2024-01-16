@@ -1,0 +1,26 @@
+{
+   "id":"lni001",
+   "pub_date":"20220301",
+   "doc_id":"7098727",
+   "unique_id":"64WP-UI-POLI",
+   "content":[
+      {
+         "c_id":"002",
+         "p_id":"P02",
+         "type":"org",
+         "source":"internet"  
+      },
+      {
+         "c_id":"003",
+         "p_id":"P03",
+         "type":"org",
+         "source":"internet" 
+      },
+      {
+         "c_id":"005",
+         "p_id":"K01",
+         "type":"people",
+         "source":"news" 
+      }
+   ]
+}

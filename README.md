@@ -99,9 +99,9 @@ root
 
 The nesting levels are denoted by double underscores `levelA__levelB__levelC`.
 This is to prevent collisions with field names that have underscores naturally.
-For example, in this scenario `unverified_key` has an underscore in its name naturally,
+For example, in this scenario `nested_key` has an underscore in its name naturally,
 whereas `nested__key` has been flattened.
 ```
-|-- unverified_key: string (nullable = true)
+|-- nested_key: string (nullable = true)
 |-- nested__key: string (nullable = true)
 ```
