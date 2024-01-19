@@ -1,5 +1,5 @@
 import org.apache.spark.sql.SparkSession
-import SparkUtilities.FlattenDataFrame.flattenDataFrame
+import SparkUtilities.flattenDataFrame
 import org.apache.log4j.Logger
 
 object FlattenRunner {
