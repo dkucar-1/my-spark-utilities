@@ -2,7 +2,7 @@
 
 This repo contains a few useful Spark Scala utilities.
 
-### Flatten Data Frame
+### Flatten DataFrame
 **def flattenDataFrame** -> DataFrame
 This utility flattens out Spark dataframes that have a highly nested structure such as what might be expected from JSON source files
 
@@ -107,6 +107,7 @@ whereas `nested__key` has been flattened.
 |-- nested__key: string (nullable = true)
 ```
 
+### Compare Two DataFrames
 **def compareDFs** -> Boolean
 ```
 df1: org.apache.spark.sql.DataFrame, 
