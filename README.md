@@ -8,7 +8,7 @@ This utility flattens out Spark dataframes that have a highly nested structure s
 
 #### Usage: 
 ```
-    import SparkUtilities.FlattenDataFrame.flattenDataFrame
+    import SparkUtilities.flattenDataFrame
     ...
     val df: DataFrame = flattenDataFrame(myDf: DataFrame, [true])
     # true indicates you want to expand out arrays as well

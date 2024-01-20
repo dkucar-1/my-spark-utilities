@@ -5,7 +5,12 @@ import org.apache.spark.sql.types.{ArrayType, StructType}
 object SparkUtilities {
 
   def flattenDataFrame(df: DataFrame, flattenArray: Boolean = false): DataFrame = {
-
+    /** Flatten a Spark dataframe that may contain structs or arrays
+     *
+     *  @param df: org.apache.spark.sql.DataFrame     : dataframe
+     *  @param flattenArray: Boolean    : should we explode/flatten arrays as well.. default false
+     *  @return a flattened dataframe
+     */
     def interiorFlatten(df: DataFrame): DataFrame = {
 
       val fields = df.schema.fields
@@ -35,35 +40,31 @@ object SparkUtilities {
   }
 
   def compareDFs(df1: org.apache.spark.sql.DataFrame, df2: org.apache.spark.sql.DataFrame): Boolean = {
-    // USAGE: compareDFs(dataFrame1, dataFrame2)
-    // returns: Boolean value
+    /** Given two Spark dataframes, verify if they are equal or not
+     *
+     *  @param df1: org.apache.spark.sql.DataFrame     : first dataframe
+     *  @param df2: org.apache.spark.sql.DataFrame     : second dataframe
+     *  @return Boolean indicating equality or not
+     */
+
 
     val df1Cnt = df1.count
     val df2Cnt = df2.count
 
-    // compare schema
     if (df1.schema.toString != df2.schema.toString) {
       println("schemas are different")
       false
-    }
-
-    else if (df1Cnt == 0 | df2Cnt == 0) {
+    } else if (df1Cnt == 0 || df2Cnt == 0) {
       println(s"row count 1 is ${df1Cnt}; row count 2 is ${df2Cnt}")
       df1Cnt == df2Cnt
-    }
-
-    // compare row counts
-    else if (df1Cnt != df2Cnt) {
+    } else if (df1Cnt != df2Cnt) {
       println("row counts are different")
       false
-    }
-
-    else {
+    } else {
       // reverse order of index and contents
       val rdd1 = df1.rdd.zipWithIndex.map(r => (r._2, r._1.get(0)))
       val rdd2 = df2.rdd.zipWithIndex.map(r => (r._2, r._1.get(0)))
 
-      //true
       /* reduce by key on the index i.e. r._1
          grab only the value (a boolean)
          then we have a list of booleans
@@ -79,8 +80,14 @@ object SparkUtilities {
   }
 
   def compareDFsSymDiff(df1: org.apache.spark.sql.DataFrame, df2: org.apache.spark.sql.DataFrame): Boolean = {
-    // USAGE: compareDFs(dataFrame1, dataFrame2)
-    // returns: Boolean value
+    /** Given two Spark dataframes, verify if they are equal or not
+     * uses Symmetric difference between two dataframes
+     * may not be suitable for wide (many column) or large dataframes
+     *
+     *  @param df1: org.apache.spark.sql.DataFrame     : first dataframe
+     *  @param df2: org.apache.spark.sql.DataFrame     : second dataframe
+     *  @return Boolean indicating equality or not
+     */
 
     if (df1.schema.toString != df2.schema.toString) {
       println("schemas are different")
