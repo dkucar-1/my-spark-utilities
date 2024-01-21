@@ -13,7 +13,7 @@ object CompareRunner {
 
   def main(args: Array[String]): Unit = {
     spark.sparkContext.setLogLevel("WARN")
-    val logger = Logger.getLogger("")
+    val logger = Logger.getLogger("CompareRunnerLogger")
     val rootPath = s"$USER_HOME_DIR/Repos/my-spark-utilities/src/main/resources"
     val fileName1 = "sample.json"
     val fileName2 = "sample2.json"
