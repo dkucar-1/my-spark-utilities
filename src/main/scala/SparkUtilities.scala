@@ -49,7 +49,7 @@ object SparkUtilities {
 
     def toRdd(df: org.apache.spark.sql.DataFrame) = {
       if (df.isEmpty) None
-      else Some(df.rdd.zipWithIndex.map(r => (r._2, r._1.get(0))))
+      else Some(df.rdd.zipWithIndex.map(r => (r._2, r._1)))
     }
 
     val rdd1 = toRdd(df1)
