@@ -130,4 +130,8 @@ df2: org.apache.spark.sql.DataFrame
 
 Computes the symmetric difference between dataframe 1 and dataframe 2 to see if it is empty. 
 
+------
 
+## Version History
+
+1.0.0 Initial Drop
