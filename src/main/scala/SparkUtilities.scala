@@ -47,36 +47,21 @@ object SparkUtilities {
      *  @return Boolean indicating equality or not
      */
 
-
-    val df1Cnt = df1.count
-    val df2Cnt = df2.count
-
-    if (df1.schema.toString != df2.schema.toString) {
-      println("schemas are different")
-      false
-    } else if (df1Cnt == 0 || df2Cnt == 0) {
-      println(s"row count 1 is ${df1Cnt}; row count 2 is ${df2Cnt}")
-      df1Cnt == df2Cnt
-    } else if (df1Cnt != df2Cnt) {
-      println("row counts are different")
-      false
-    } else {
-      // reverse order of index and contents
-      val rdd1 = df1.rdd.zipWithIndex.map(r => (r._2, r._1.get(0)))
-      val rdd2 = df2.rdd.zipWithIndex.map(r => (r._2, r._1.get(0)))
-
-      /* reduce by key on the index i.e. r._1
-         grab only the value (a boolean)
-         then we have a list of booleans
-         ensure all booleans are true */
-
-      rdd1.union(rdd2)
-        .reduceByKey(_ == _)
-        .map(t => t._2.asInstanceOf[Boolean])
-        .reduce(_ && _)
-
-
+    def toRdd(df: org.apache.spark.sql.DataFrame) = {
+      if (df.isEmpty) None
+      else Some(df.rdd.zipWithIndex.map(r => (r._2, r._1.get(0))))
     }
+
+    val rdd1 = toRdd(df1)
+    val rdd2 = toRdd(df2)
+
+    !(rdd2.isDefined ^ rdd1.isDefined) &&
+      ((rdd1.isEmpty && rdd2.isEmpty) ||
+        (rdd1.getOrElse(0).asInstanceOf[org.apache.spark.rdd.RDD[(Long, Any)]]
+          .union(rdd2.getOrElse(0).asInstanceOf[org.apache.spark.rdd.RDD[(Long, Any)]])
+          .reduceByKey(_ == _)
+          .map(t => t._2.asInstanceOf[Boolean])
+          .reduce(_ && _)))
   }
 
   def compareDFsSymDiff(df1: org.apache.spark.sql.DataFrame, df2: org.apache.spark.sql.DataFrame): Boolean = {
