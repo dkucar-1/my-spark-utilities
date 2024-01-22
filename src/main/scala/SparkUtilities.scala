@@ -55,7 +55,8 @@ object SparkUtilities {
     val rdd1 = toRdd(df1)
     val rdd2 = toRdd(df2)
 
-    !(rdd2.isDefined ^ rdd1.isDefined) &&
+    (df1.schema.toString == df2.schema.toString()) &&
+      !(rdd2.isDefined ^ rdd1.isDefined) &&
       ((rdd1.isEmpty && rdd2.isEmpty) ||
         (rdd1.getOrElse(0).asInstanceOf[org.apache.spark.rdd.RDD[(Long, Any)]]
           .union(rdd2.getOrElse(0).asInstanceOf[org.apache.spark.rdd.RDD[(Long, Any)]])
@@ -75,15 +76,11 @@ object SparkUtilities {
      */
 
     if (df1.schema.toString != df2.schema.toString) {
-      println("schemas are different")
       false
     }
-    // step 3: compare row counts
     else if (df1.count != df2.count) {
-      println("row counts are different")
       false
     }
-
     // verify that the symmetric difference between df1 and df2 is empty
     else
       ((df2.exceptAll(df1)).isEmpty) && ((df1.exceptAll(df2)).isEmpty)
