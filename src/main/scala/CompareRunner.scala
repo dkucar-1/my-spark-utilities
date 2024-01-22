@@ -9,12 +9,12 @@ object CompareRunner {
     .appName("Test Compare")
     .getOrCreate()
 
-  val USER_HOME_DIR = System.getProperty("user.home")
+  val USER_HOME_DIR = System.getProperty("user.dir")
 
   def main(args: Array[String]): Unit = {
     spark.sparkContext.setLogLevel("WARN")
     val logger = Logger.getLogger("CompareRunnerLogger")
-    val rootPath = s"$USER_HOME_DIR/Repos/my-spark-utilities/src/main/resources"
+    val rootPath = s"$USER_HOME_DIR/src/main/resources"
     val fileName1 = "sample.json"
     val fileName2 = "sample2.json"
     val df1 = spark.read.option("multiline", "true").json(s"$rootPath/$fileName1")

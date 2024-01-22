@@ -56,7 +56,7 @@ class CompareDataframeTest extends AnyFunSuite {
 
   test("Compare two same JSON files as dataframes") {
 
-    val rootPath = s"$USER_HOME_DIR/Repos/my-spark-utilities/src/main/resources"
+    val rootPath = s"$USER_HOME_DIR/src/main/resources"
     val fileName1 = "sample.json"
     val df1 = spark.read.option("multiline", "true").json(s"$rootPath/$fileName1")
 
@@ -69,7 +69,7 @@ class CompareDataframeTest extends AnyFunSuite {
 
   test("Compare two different JSON files as dataframes") {
 
-    val rootPath = s"$USER_HOME_DIR/Repos/my-spark-utilities/src/main/resources"
+    val rootPath = s"$USER_HOME_DIR/src/main/resources"
     val fileName1 = "sample.json"
     val fileName2 = "sample2.json"
     val df1 = spark.read.option("multiline", "true").json(s"$rootPath/$fileName1")
